@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" and="text" class="in-text" demote-non-dropping-particle="display-and-sort" et-al-min="4" et-al-use-first="1" page-range-format="minimal" version="1.0" default-locale="en-GB">
+  <info>
+    <title>Custom Author-Date Style (Bracketed)</title>
+    <title-short>Custom (author-date, bracketed)</title-short>
+    <id>http://www.zotero.org/styles/custom-author-date-bracket</id>
+    <link href="http://www.zotero.org/styles/custom-author-date-bracket" rel="self"/>
+    <link href="http://www.zotero.org/styles/new-harts-rules-author-date" rel="template"/>
+    <author>
+      <name>Custom</name>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="generic-base"/>
+    <summary>Custom citation style: [Author et al., Year] format for both in-text and bibliography</summary>
+    <updated>2025-01-06T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  <locale xml:lang="en">
+    <terms>
+      <term name="no date">n.d.</term>
+    </terms>
+  </locale>
+  
+  <!-- Author macro for bibliography label [Author et al., Year] -->
+  <macro name="author-short">
+    <names variable="author">
+      <name form="short" and="text" delimiter=", " delimiter-precedes-last="never"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="title" form="short"/>
+      </substitute>
+    </names>
+  </macro>
+  
+  <!-- Full author names for bibliography entry -->
+  <macro name="author-full">
+    <names variable="author">
+      <name and="text" delimiter=", " delimiter-precedes-last="always" name-as-sort-order="first"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+      </substitute>
+    </names>
+  </macro>
+  
+  <!-- Year macro -->
+  <macro name="year">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+        <text variable="year-suffix"/>
+      </if>
+      <else>
+        <text term="no date"/>
+        <text variable="year-suffix"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Year for sorting -->
+  <macro name="year-sort">
+    <choose>
+      <if variable="issued">
+        <date variable="issued">
+          <date-part name="year"/>
+        </date>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Title macro -->
+  <macro name="title">
+    <choose>
+      <if type="book thesis report" match="any">
+        <text variable="title" font-style="italic"/>
+      </if>
+      <else-if type="chapter paper-conference" match="any">
+        <text variable="title"/>
+      </else-if>
+      <else-if type="article-journal article-magazine article-newspaper" match="any">
+        <text variable="title"/>
+      </else-if>
+      <else>
+        <text variable="title" font-style="italic"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Container title (for chapters, articles) -->
+  <macro name="container">
+    <choose>
+      <if type="chapter paper-conference" match="any">
+        <group delimiter=" ">
+          <text term="in" text-case="capitalize-first"/>
+          <names variable="editor" delimiter=", ">
+            <name and="text" delimiter=", "/>
+            <label form="short" prefix=" (" suffix=")"/>
+          </names>
+          <text variable="container-title" font-style="italic"/>
+        </group>
+      </if>
+      <else-if type="article-journal article-magazine article-newspaper" match="any">
+        <group delimiter=", ">
+          <text variable="container-title" font-style="italic"/>
+          <text variable="volume"/>
+          <text variable="issue" prefix="(" suffix=")"/>
+          <text variable="page"/>
+        </group>
+      </else-if>
+    </choose>
+  </macro>
+  
+  <!-- Publisher info -->
+  <macro name="publisher">
+    <choose>
+      <if type="book chapter paper-conference report thesis" match="any">
+        <group delimiter=", ">
+          <text variable="publisher"/>
+          <text variable="publisher-place"/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  
+  <!-- Edition -->
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <group delimiter=" ">
+          <number variable="edition" form="ordinal"/>
+          <text term="edition" form="short"/>
+        </group>
+      </if>
+      <else>
+        <text variable="edition"/>
+      </else>
+    </choose>
+  </macro>
+  
+  <!-- Citation (in-text): [Author et al., Year] -->
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" disambiguate-add-givenname="true" collapse="year">
+    <sort>
+      <key macro="author-short"/>
+      <key macro="year-sort"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author-short"/>
+        <text macro="year"/>
+      </group>
+      <group prefix=", ">
+        <label variable="locator" form="short" suffix=" "/>
+        <text variable="locator"/>
+      </group>
+    </layout>
+  </citation>
+  
+  <!-- Bibliography: [Author et al., Year] Full Names. Title. Publisher, Place, Year. -->
+  <bibliography hanging-indent="true" entry-spacing="1">
+    <sort>
+      <key macro="author-short"/>
+      <key macro="year-sort"/>
+      <key variable="title"/>
+    </sort>
+    <layout suffix=".">
+      <!-- Label part: [Author et al., Year] -->
+      <group prefix="[" suffix="] " delimiter=", ">
+        <text macro="author-short"/>
+        <text macro="year"/>
+      </group>
+      <!-- Main entry part -->
+      <group delimiter=". ">
+        <text macro="author-full"/>
+        <text macro="title"/>
+        <text macro="edition"/>
+        <text macro="container"/>
+        <group delimiter=", ">
+          <text macro="publisher"/>
+          <date variable="issued">
+            <date-part name="year"/>
+          </date>
+        </group>
+      </group>
+    </layout>
+  </bibliography>
+</style>
