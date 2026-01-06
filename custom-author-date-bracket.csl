@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" and="text" class="in-text" demote-non-dropping-particle="display-and-sort" et-al-min="4" et-al-use-first="1" page-range-format="minimal" version="1.0" default-locale="en-GB">
+<style xmlns="http://purl.org/net/xbiblio/csl" and="text" class="in-text" demote-non-dropping-particle="display-and-sort" et-al-min="3" et-al-use-first="1" page-range-format="minimal" version="1.0" default-locale="en-GB">
   <info>
     <title>Custom Author-Date Style (Bracketed)</title>
     <title-short>Custom (author-date, bracketed)</title-short>
